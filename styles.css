@@ -1,0 +1,161 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* No we are going to use the variables to mark the size of the cells*/
+:root{
+    --cell-size: 100px;
+    --mark-size: calc(var(--cell-size) * 0.9);
+}
+
+body{
+    margin: 0;
+    background-color: #eceaea;
+}
+
+.board{
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(3,auto);
+}
+
+.cell{
+    border: 2px solid #000;
+    cursor: pointer;
+    height: var(--cell-size);
+    width: var(--cell-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/*Inorder to show not allowed cursor in the cell where x is not allowed*/
+.cell.x,
+.cell.circle{
+    cursor:not-allowed;
+}
+
+/* inorder to remove the unnecessary borders */
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+    border-top: none;
+}
+
+/*Inorder to remove the leftmost borders*/
+.cell:nth-child(3n + 1){
+    border-left:none;
+}
+
+/*inorder to remove the right most borders*/
+.cell:nth-child(3n){
+    border-right: none;
+}
+
+/*Inorder to remove the bottom borders*/
+.cell:last-child ,
+.cell:nth-child(8),
+.cell:nth-child(7) {
+    border-bottom: none;
+}
+
+
+.cell.x::before,
+.cell.x::after, 
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after{
+    content: '';
+    width: calc(var(--mark-size) * 0.15);
+    height: var(--mark-size);
+    background-color: #000;
+    position: absolute;
+}
+
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before{
+    transform: rotate(45deg);
+}
+
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after{
+    transform:rotate(-45deg);
+}
+
+/* Inorder to set a different color while hovering*/
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after{
+    background-color:#9b9797;
+}
+
+
+.cell.circle::before,
+.cell.circle::after,
+.board.circle .cell:not(.circle):not(.x):hover::before, 
+.board.circle .cell:not(.circle):not(.x):hover::after{
+    border-radius: 50%;
+    content: '';
+    position: absolute;
+}
+
+.cell.circle::before,
+.board.circle .cell:not(.circle):not(.x):hover::before{
+    background-color:#000;
+    height:var(--mark-size);
+    width: var(--mark-size);
+}
+
+.cell.cell.circle::after,
+.board.circle .cell:not(.circle):not(.x):hover::after{
+    height: calc(var(--mark-size) * 0.7);
+    width: calc(var(--mark-size) * 0.7);
+    background-color:#eceaea;
+}
+
+.board.circle .cell:not(.x):not(.circle):hover::before{
+    background-color:#a5a5a5;
+}
+
+.board.circle .cell:not(.x):not(.circle):hover::after {
+    background-color: #f4f1f1;
+}
+
+.winner-display{
+    align-items: center;
+    top:0;
+    bottom:0;
+    display: none;
+    left:0;
+    right:0;
+    background-color: rgba(0, 0, 0, .8);
+    color:#fff;
+    font-size: 4rem;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+} 
+
+.winning-message{
+    margin-bottom: 10px;
+}
+
+#restartButton{
+    border-radius: 5px;
+    background-color: #fff;
+    color:#000;
+    font-size: 3rem;
+}
+
+#restartButton:hover{
+    background-color: #dad8d8;
+    cursor: pointer;
+}
+
+.winner-display.show{
+    display: flex;
+}
